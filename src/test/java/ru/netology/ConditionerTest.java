@@ -1,26 +1,39 @@
 package ru.netology;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ConditionerTest {
 
-    @Test
-    public void increaseCurrentTemperature() {
+    @ParameterizedTest
+    @CsvSource({
+            "IncreaseTemperatureFrom_0,0,1",
+            "IncreaseTemperatureFrom_15,15,16",
+            "IncreaseTemperatureFrom_max,25,25"
+    })
+    public void increaseCurrentTemperature(String name, int currentTemperature, int expected) {
         Conditioner conditioner = new Conditioner();
-        conditioner.setCurrentTemperature(18);
         conditioner.setMaxTemperature(25);
+        conditioner.setCurrentTemperature(currentTemperature);
         conditioner.increaseCurrentTemperature();
-        assertEquals(conditioner.getMaxTemperature(), conditioner.getCurrentTemperature());
+        int actual = conditioner.getCurrentTemperature();
+        assertEquals(expected, actual);
     }
 
-    @Test
-    public void decreaseCurrentTemperature() {
+    @ParameterizedTest
+    @CsvFileSource(resources = "/data.csv")
+    public void decreaseCurrentTemperature(String name, int maxTemperature,int minTemperature,
+                                                        int currentTemperature, int expected) {
         Conditioner conditioner = new Conditioner();
-        conditioner.setCurrentTemperature(20);
-        conditioner.setMinTemperature(16);
+        conditioner.setMinTemperature(minTemperature);
+        conditioner.setMaxTemperature(maxTemperature);
+        conditioner.setCurrentTemperature(currentTemperature);
         conditioner.decreaseCurrentTemperature();
-        assertEquals(conditioner.getMinTemperature(), conditioner.getCurrentTemperature());
+        int actual = conditioner.getCurrentTemperature();
+        assertEquals(expected, actual);
     }
 }
