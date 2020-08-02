@@ -26,8 +26,8 @@ class ConditionerTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/data.csv")
-    public void decreaseCurrentTemperature(String name, int maxTemperature,int minTemperature,
-                                                        int currentTemperature, int expected) {
+    public void decreaseCurrentTemperature(String name, int maxTemperature, int minTemperature,
+                                           int currentTemperature, int expected) {
         Conditioner conditioner = new Conditioner();
         conditioner.setMinTemperature(minTemperature);
         conditioner.setMaxTemperature(maxTemperature);
